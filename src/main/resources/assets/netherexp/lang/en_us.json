@@ -79,7 +79,6 @@
   "item.netherexp.antidote.effect.decay": "Antidote for Decay",
   "item.netherexp.antidote.effect.luck": "Antidote for Luck",
   "item.netherexp.antidote.effect.unluck": "Antidote for Unluck",
-  "item.netherexp.antidote.effect.brain_damage": "Antidote for Brain Damage",
 
   "item.netherexp.grenade_antidote": "Grenade Antidote",
   "item.netherexp.grenade_antidote.effect.": "Uncraftable Grenade Antidote",
@@ -104,7 +103,6 @@
   "item.netherexp.grenade_antidote.effect.decay": "Grenade Antidote for Decay",
   "item.netherexp.grenade_antidote.effect.luck": "Grenade Antidote for Luck",
   "item.netherexp.grenade_antidote.effect.unluck": "Grenade Antidote for Unluck",
-  "item.netherexp.grenade_antidote.effect.brain_damage": "Grenade Antidote for Brain Damage",
 
   "shotgun_fist.ammo": "Ammo:",
   "shotgun_fist.heat": "Temperature:",
@@ -531,7 +529,6 @@
   "effect.netherexp.wither_immunity": "Wither Immunity",
   "effect.netherexp.luck_immunity": "Luck Immunity",
   "effect.netherexp.unluck_immunity": "Unluck Immunity",
-  "effect.netherexp.brain_damage_immunity": "Brain Damage Immunity",
 
   "item.netherexp.brightspores": "Brightspores",
   "block.netherexp.shroombright": "Shroombright",
@@ -629,6 +626,10 @@
   "subtitles.block.thin_black_ice.cracking": "Thin Black Ice cracks",
   "subtitles.entity.vessel.warn": "Vessel charges barrel",
   "subtitles.entity.vessel.fire": "Vessel shoots",
+
+  "effect.netherexp.brain_damage_immunity": "Brain Damage Immunity",
+  "item.netherexp.antidote.effect.brain_damage": "Antidote for Brain Damage",
+  "item.netherexp.grenade_antidote.effect.brain_damage": "Grenade Antidote for Brain Damage",
 
   "itemGroup.netherexp.netherexp_tab": "Jaden's Nether Expansion"
 }

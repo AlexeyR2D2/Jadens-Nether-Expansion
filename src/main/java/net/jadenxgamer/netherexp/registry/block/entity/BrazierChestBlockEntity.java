@@ -1,5 +1,6 @@
 package net.jadenxgamer.netherexp.registry.block.entity;
 
+import net.jadenxgamer.netherexp.NetherExp;
 import net.jadenxgamer.netherexp.config.JNEConfigs;
 import net.jadenxgamer.netherexp.registry.block.JNEBlockEntityType;
 import net.jadenxgamer.netherexp.registry.block.custom.BrazierChestBlock;
@@ -25,7 +26,9 @@ import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
+import java.util.Objects;
 
 public class BrazierChestBlockEntity extends RandomizableContainerBlockEntity {
     private NonNullList<ItemStack> items;
@@ -66,27 +69,11 @@ public class BrazierChestBlockEntity extends RandomizableContainerBlockEntity {
 
     public void refillLoot() {
         if (this.level != null) {
-            if (this.refillLootTable != null) {
-                this.clearContent();
-                setLootTable(this.level, this.level.random, this.getBlockPos(), this.refillLootTable);
+            if (this.refillLootTable == null) {
+                this.refillLootTable = Objects.requireNonNullElseGet(this.lootTable, () -> new ResourceLocation("netherexp:brazier_chest/exposed"));
             }
-        }
-    }
-
-    protected void saveAdditional(CompoundTag nbt) {
-        super.saveAdditional(nbt);
-        nbt.putInt("LockTimer", this.lockTimer);
-        if (!this.trySaveLootTable(nbt)) {
-            ContainerHelper.saveAllItems(nbt, this.items);
-        }
-    }
-
-    public void load(CompoundTag nbt) {
-        super.load(nbt);
-        this.lockTimer = nbt.getInt("LockTimer");
-        this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        if (!this.tryLoadLootTable(nbt)) {
-            ContainerHelper.loadAllItems(nbt, this.items);
+            this.clearContent();
+            setLootTable(this.level, this.level.random, this.getBlockPos(), this.refillLootTable);
         }
     }
 
@@ -128,17 +115,37 @@ public class BrazierChestBlockEntity extends RandomizableContainerBlockEntity {
         }
     }
 
+    protected void saveAdditional(CompoundTag nbt) {
+        super.saveAdditional(nbt);
+        nbt.putInt("LockTimer", this.lockTimer);
+        if (this.refillLootTable != null) {
+            nbt.putString("RefillLootTable", this.refillLootTable.toString());
+        }
+        if (!this.trySaveLootTable(nbt)) {
+            ContainerHelper.saveAllItems(nbt, this.items);
+        }
+    }
+
+    public void load(CompoundTag nbt) {
+        super.load(nbt);
+        this.lockTimer = nbt.getInt("LockTimer");
+        if (nbt.contains("RefillLootTable", 8)) {
+            this.refillLootTable = new ResourceLocation(nbt.getString("RefillLootTable"));
+        }
+        this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+        if (!this.tryLoadLootTable(nbt)) {
+            ContainerHelper.loadAllItems(nbt, this.items);
+        }
+    }
+
     public void tick(Level level, BlockPos pos, BlockState state) {
         boolean locked = state.getValue(BrazierChestBlock.LOCKED);
         if (level != null) {
-            if (this.lootTable != null && refillLootTable == null) {
-                this.refillLootTable = lootTable;
-            }
             if (!locked) {
                 --this.lockTimer;
                 if (this.lockTimer <= 0) {
                     this.clearContent();
-                    level.setBlock(pos, state.cycle(BrazierChestBlock.LOCKED), 2);
+                    level.setBlock(pos, state.setValue(BrazierChestBlock.LOCKED, true), 2);
                     level.playSound(null, this.getBlockPos(), SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0f, 1.0f);
                     this.lockTimer = JNEConfigs.BRAZIER_CHEST_REFILL_COOLDOWN.get() * 20;
                 }

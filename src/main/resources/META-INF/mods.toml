@@ -8,7 +8,7 @@ version="${mod_version}"
 displayName="${mod_name}"
 authors="${mod_authors}"
 description='''${mod_description}'''
-credits = "AlwaysMuddy, Shroomaniac, ceasingbonsai17, Sydokiddo, LudoCrypt, Faithful, Wawwior"
+credits = "AlwaysMuddy, Shroomaniac, ceasingbonsai17, Sydokiddo, LudoCrypt, Faithful, Wawwior, Alganaut"
 logoFile = "netherexp.png"
 [[dependencies.${mod_id}]]
     modId="forge"

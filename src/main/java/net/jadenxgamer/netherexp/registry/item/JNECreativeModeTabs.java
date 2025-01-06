@@ -393,6 +393,9 @@ public class JNECreativeModeTabs {
                             output.accept(JNEBlocks.CUT_NECROMIUM_SLAB.get());
                             output.accept(JNEBlocks.CUT_NECROMIUM_PILLAR.get());
                         }
+                        if (CompatUtil.checkOreganized()) {
+                            output.accept(JNEItems.JACKHAMMER_FIST.get());
+                        }
                     }).build());
 
     private static void addAntidotes(CreativeModeTab.Output output) {

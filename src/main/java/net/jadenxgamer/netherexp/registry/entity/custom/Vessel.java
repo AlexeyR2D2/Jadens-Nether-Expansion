@@ -292,7 +292,7 @@ public class Vessel extends Monster implements RangedAttackMob {
 
     public void setCustomName(@Nullable Component name) {
         super.setCustomName(name);
-        if (!this.isShotgunGuy && name != null && name.getString().equals("ShotgunGuy") || name.getString().equals("Shotgun Guy")) {
+        if (!this.isShotgunGuy && name != null && name.getString().equals("ShotgunGuy") || name.getString().equals("Shotgun Guy") || name.getString().equals("DOOM")) {
             this.isShotgunGuy = true;
         }
     }
