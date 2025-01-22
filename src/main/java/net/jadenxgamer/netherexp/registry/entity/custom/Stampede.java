@@ -212,15 +212,20 @@ public class Stampede extends Monster implements NeutralMob, ItemSteerable, Sadd
                 this.setEating(true);
                 if (eating > 100) {
                     if (item.is(JNETags.Items.STAMPEDE_FAVORITES) && !this.getIsTamed()) {
-                        if (!level().isClientSide && random.nextInt(5) == 0) {
+                        if (this.level().isClientSide()) return;
+                        if (random.nextInt(5) == 0) {
                             this.setIsTamed(true);
                             List<ServerPlayer> nearbyPlayers = this.level().getEntitiesOfClass(ServerPlayer.class, new AABB(this.blockPosition()).inflate(6.5, 6.5, 6.5));
                             for (ServerPlayer serverPlayer : nearbyPlayers) {
                                 JNECriteriaTriggers.TAME_STAMPEDE.trigger(serverPlayer);
                             }
-                        }
-                        for(int i = 0; i < 12; ++i) {
-                            this.level().addParticle(ParticleTypes.HEART, this.getRandomX(0.5), this.getRandomY() - 0.25, this.getRandomZ(0.5), 0.0, 0.0, 0.0);
+                            for(int i = 0; i < 12; ++i) {
+                                ((ServerLevel) this.level()).sendParticles(ParticleTypes.HEART, this.getRandomX(0.5), this.getRandomY() - 0.25, this.getRandomZ(0.5), 1, 0.0, 0.0, 0.0, 0.0);
+                            }
+                        } else {
+                            for(int i = 0; i < 12; ++i) {
+                                ((ServerLevel) this.level()).sendParticles(ParticleTypes.LARGE_SMOKE, this.getRandomX(0.5), this.getRandomY() - 0.25, this.getRandomZ(0.5), 1, 0.0, 0.0, 0.0, 0.0);
+                            }
                         }
                     }
                     this.setItemSlot(EquipmentSlot.MAINHAND, Items.AIR.getDefaultInstance());
@@ -251,6 +256,12 @@ public class Stampede extends Monster implements NeutralMob, ItemSteerable, Sadd
 
     public @NotNull InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
+        if (!this.getIsTamed() && stack.is(JNETags.Items.STAMPEDE_FAVORITES)) {
+            this.setItemSlot(EquipmentSlot.MAINHAND, stack.copyWithCount(1));
+            if (!player.getAbilities().instabuild) {
+                stack.shrink(1);
+            }
+        }
         if (this.isSaddled() && stack.isEmpty() && player.isShiftKeyDown()) {
             this.steering.setSaddle(false);
             player.level().playSound(null, player.getOnPos(), SoundEvents.STRIDER_SADDLE, SoundSource.PLAYERS, 1.0f, 1.0f);
@@ -399,6 +410,11 @@ public class Stampede extends Monster implements NeutralMob, ItemSteerable, Sadd
     @Override
     public boolean requiresCustomPersistence() {
         return super.requiresCustomPersistence() || this.getIsTamed();
+    }
+
+    @Override
+    public boolean removeWhenFarAway(double pDistanceToClosestPlayer) {
+        return !this.getIsTamed() && !this.hasCustomName();
     }
 
     @Override
