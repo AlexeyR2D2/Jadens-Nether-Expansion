@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    " Q ",
+    "QSQ",
+    " Q "
+  ],
+  "key": {
+    "S": {
+      "item": "netherexp:soul_glass"
+    },
+    "Q": {
+      "tag": "minecraft:quartz"
+    }
+  },
+  "result": {
+    "item": "netherexp:discernment_glass",
+    "count": 2
+  }
+}
+

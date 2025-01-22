@@ -18,6 +18,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -120,8 +121,10 @@ public class JNEBlocks {
 
     public static final RegistryObject<Block> SOUL_GLASS = registerBlock("soul_glass", () ->
             new SoulGlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).mapColor(MapColor.TERRACOTTA_LIGHT_BLUE).lightLevel(
-                    blockState -> blockState.getValue(SoulGlassBlock.LIT) ? 12 : 0).strength(0.3f, 1200.0f).sound(SoundType.GLASS)
-            ));
+                    blockState -> blockState.getValue(SoulGlassBlock.LIT) ? 12 : 0).strength(0.3f, 1200.0f).sound(SoundType.GLASS)));
+
+    public static final RegistryObject<Block> DISCERNMENT_GLASS = registerBlock("discernment_glass", () ->
+            new DiscernmentGlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).mapColor(MapColor.TERRACOTTA_LIGHT_BLUE).strength(0.3f, 1200.0f).sound(SoundType.GLASS)));
 
     public static final RegistryObject<Block> OCHRE_FROGMIST = registerBlock("ochre_frogmist", () ->
             new FrogmistBlock(BlockBehaviour.Properties.of().noCollission().pushReaction(PushReaction.DESTROY).instabreak().requiresCorrectToolForDrops().noOcclusion().noParticlesOnBreak().sound(SoundType.SAND)));
@@ -624,7 +627,7 @@ public class JNEBlocks {
             new JNEStairBlock(JNEBlocks.STACKED_BONES.get().defaultBlockState(), BlockBehaviour.Properties.copy(Blocks.BONE_BLOCK)));
 
     // Wither Bone
-    
+
     public static final RegistryObject<Block> WITHER_BONE_BLOCK = registerBlock("wither_bone_block", () ->
             new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.BONE_BLOCK).strength(4.5f, 9.0f)));
 
@@ -647,7 +650,7 @@ public class JNEBlocks {
             new JNEStairBlock(JNEBlocks.STACKED_WITHER_BONES.get().defaultBlockState(), BlockBehaviour.Properties.copy(JNEBlocks.WITHER_BONE_BLOCK.get())));
 
     // Blackstone
-    
+
     public static final RegistryObject<Block> POLISHED_BLACKSTONE_PILLAR = registerBlock("polished_blackstone_pillar", () ->
             new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.POLISHED_BLACKSTONE)));
 
@@ -698,7 +701,7 @@ public class JNEBlocks {
     // Flower Pots
     public static final RegistryObject<Block> POTTED_SOUL_SWIRLS = registerBlockWithoutItem("potted_soul_swirls", () ->
             new FlowerPotBlock(SOUL_SWIRLS.get(), BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
-    
+
     public static final RegistryObject<Block> POTTED_ENIGMA_CROWN = registerBlockWithoutItem("potted_enigma_crown", () ->
             new FlowerPotBlock(ENIGMA_CROWN.get(), BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
@@ -814,6 +817,20 @@ public class JNEBlocks {
 
     public static final RegistryObject<Block> NECROMIUM_GRATE = registerItemPropertiesCompatBlock("necromium_grate", () ->
             new LiquidloggedGrateBlock(BlockBehaviour.Properties.copy(JNEBlocks.CUT_NECROMIUM_BLOCK.get()).noOcclusion().lightLevel(LiquidloggedGrateBlock::getLuminance)), new Item.Properties().fireResistant(), CompatUtil.CAVERNS_AND_CHASMS);
+
+    /**
+     * ALEX'S CAVES
+     */
+
+    public static final RegistryObject<Block> CARMINE_FROGMIST = registerCompatBlock("carmine_frogmist", () ->
+            new FrogmistBlock(BlockBehaviour.Properties.of().noCollission().pushReaction(PushReaction.DESTROY).instabreak().requiresCorrectToolForDrops().noOcclusion().noParticlesOnBreak().sound(SoundType.SAND)), CompatUtil.ALEXS_CAVES);
+
+    /**
+     * OREGANIZED
+     */
+
+    public static final RegistryObject<Block> GROOVED_BLACK_ICE = registerCompatBlock("grooved_black_ice", () ->
+            new BlackIceBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.CHIME).requiresCorrectToolForDrops().strength(0.3f).lightLevel((state) -> 2).sound(JNESoundType.BLACK_ICE)), CompatUtil.OREGANIZED);
 
     ////////////////
     // REGISTRIES //

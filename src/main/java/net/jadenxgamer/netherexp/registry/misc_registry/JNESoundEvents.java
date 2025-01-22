@@ -152,6 +152,8 @@ public class JNESoundEvents {
     public static RegistryObject<SoundEvent> BRAZIER_CHEST_LIT = registerSoundEvents("block.brazier_chest.lit");
     public static RegistryObject<SoundEvent> TREACHEROUS_CANDLE_VICTORY = registerSoundEvents("block.treacherous_candle.victory");
     public static RegistryObject<SoundEvent> TREACHEROUS_CANDLE_DEFEAT = registerSoundEvents("block.treacherous_candle.defeat");
+    public static RegistryObject<SoundEvent> DISCERNMENT_GLASS_ADD = registerSoundEvents("block.discernment_glass.add");
+    public static RegistryObject<SoundEvent> DISCERNMENT_GLASS_REMOVE = registerSoundEvents("block.discernment_glass.remove");
 
     // ENTITIES:
 

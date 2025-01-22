@@ -437,7 +437,7 @@
   "entity.netherexp.banshee": "Banshee",
   "entity.netherexp.stampede": "Stampede",
   "entity.netherexp.carcass": "Carcass",
-  "entity.netherexp.soul_bullet": "Soul Bullet",
+  "entity.netherexp.soul_bullet": "Shotgun Pellet",
   "entity.netherexp.will_o_wisp": "Will O' Wisp",
   "entity.netherexp.blood_drop": "Blood Drop",
   "entity.netherexp.phasmo_arrow": "Phasmo Arrow",
@@ -630,6 +630,11 @@
   "effect.netherexp.brain_damage_immunity": "Brain Damage Immunity",
   "item.netherexp.antidote.effect.brain_damage": "Antidote for Brain Damage",
   "item.netherexp.grenade_antidote.effect.brain_damage": "Grenade Antidote for Brain Damage",
+
+  "block.netherexp.grooved_black_ice": "Grooved Black Ice",
+  "block.netherexp.discernment_glass": "Discernment Glass",
+  "subtitles.block.discernment_glass.add": "Item added to discernment glass",
+  "subtitles.block.discernment_glass.remove": "Item removed from discernment glass",
 
   "itemGroup.netherexp.netherexp_tab": "Jaden's Nether Expansion"
 }

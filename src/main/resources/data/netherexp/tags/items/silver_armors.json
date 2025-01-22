@@ -17,6 +17,7 @@
       "id": "caverns_and_chasms:necromium_boots",
       "required": false
     },
+
     {
       "id": "caverns_and_chasms:silver_helmet",
       "required": false
@@ -31,6 +32,23 @@
     },
     {
       "id": "caverns_and_chasms:silver_boots",
+      "required": false
+    },
+
+    {
+      "id": "oreganized:electrum_helmet",
+      "required": false
+    },
+    {
+      "id": "oreganized:electrum_chestplate",
+      "required": false
+    },
+    {
+      "id": "oreganized:electrum_leggings",
+      "required": false
+    },
+    {
+      "id": "oreganized:electrum_boots",
       "required": false
     }
   ]

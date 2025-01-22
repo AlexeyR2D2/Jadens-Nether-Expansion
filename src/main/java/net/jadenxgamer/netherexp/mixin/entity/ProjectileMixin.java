@@ -35,11 +35,11 @@ public abstract class ProjectileMixin {
         if (projectile instanceof AbstractArrow abstractArrow && abstractArrow.getPierceLevel() > 0) {
             return;
         }
-        if (entity.getType().is(JNETags.EntityTypes.PROJECTILES_PASS_THROUGH) && projectile.getType().is(JNETags.EntityTypes.PHANTASM_HULL_PROTECTS_AGAINST)) {
+        if (entity.getType().is(JNETags.EntityTypes.PROJECTILES_PASS_THROUGH) && !projectile.getType().is(JNETags.EntityTypes.PHANTASM_HULL_PROTECTS_BLACKLIST)) {
             level.addParticle(ParticleTypes.SOUL, entity.getRandomX(0.5), entity.getRandomY() - 0.25, entity.getRandomZ(0.5), Mth.randomBetween(level.random, -1.0f, 1.0f) * 0.083333336f, 0.05f, Mth.randomBetween(level.random, -1.0f, 1.0f) * 0.083333336f);
             ci.cancel();
         }
-        else if (entity instanceof LivingEntity livingEntity && EnchantmentHelper.getEnchantmentLevel(JNEEnchantments.PHANTASM_HULL.get(), livingEntity) > 0 && livingEntity.isShiftKeyDown() && projectile.getType().is(JNETags.EntityTypes.PHANTASM_HULL_PROTECTS_AGAINST)) {
+        else if (entity instanceof LivingEntity livingEntity && EnchantmentHelper.getEnchantmentLevel(JNEEnchantments.PHANTASM_HULL.get(), livingEntity) > 0 && livingEntity.isShiftKeyDown() && !projectile.getType().is(JNETags.EntityTypes.PHANTASM_HULL_PROTECTS_BLACKLIST)) {
             level.addParticle(ParticleTypes.SOUL, livingEntity.getRandomX(0.5), livingEntity.getRandomY() - 0.25, livingEntity.getRandomZ(0.5), Mth.randomBetween(level.random, -1.0f, 1.0f) * 0.083333336f, 0.05f, Mth.randomBetween(level.random, -1.0f, 1.0f) * 0.083333336f);
             if (level.getRandom().nextInt(2) == 0) {
                 ItemStack itemStack = livingEntity.getItemBySlot(EquipmentSlot.CHEST);

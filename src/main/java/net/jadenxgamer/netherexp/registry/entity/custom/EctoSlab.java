@@ -61,6 +61,7 @@ import java.util.function.Predicate;
 
 public class EctoSlab extends Slime {
     private int changeType = 1;
+    private int undergroundTime;
 
     public final AnimationState idleAnimationState = new AnimationState();
     public final AnimationState digAnimationState = new AnimationState();
@@ -168,7 +169,7 @@ public class EctoSlab extends Slime {
     }
 
     public boolean isInvulnerableTo(DamageSource damageSource) {
-        return this.isRemoved() || this.isInvulnerable() || this.getIsUnderground() && !damageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && !damageSource.isCreativePlayer() || damageSource.is(DamageTypeTags.IS_FIRE) && this.fireImmune() || damageSource.is(DamageTypeTags.IS_FALL) && this.getType().is(EntityTypeTags.FALL_DAMAGE_IMMUNE);
+        return this.isRemoved() || this.isInvulnerable() || this.getIsUnderground() && !damageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && !damageSource.is(JNETags.DamageTypes.CAN_DISRUPT_UNDERGROUND_ECTO_SLABS) && !damageSource.isCreativePlayer() || damageSource.is(DamageTypeTags.IS_FIRE) && this.fireImmune() || damageSource.is(DamageTypeTags.IS_FALL) && this.getType().is(EntityTypeTags.FALL_DAMAGE_IMMUNE);
     }
 
     @Override
@@ -341,6 +342,10 @@ public class EctoSlab extends Slime {
                 JNECriteriaTriggers.EXORCISM.trigger((ServerPlayer) player);
             }
         }
+        else if (damageSource.is(JNETags.DamageTypes.CAN_DISRUPT_UNDERGROUND_ECTO_SLABS)) {
+            this.undergroundTime = 20;
+            return false;
+        }
         return super.hurt(damageSource, f);
     }
 
@@ -495,7 +500,6 @@ public class EctoSlab extends Slime {
 
     static class EctoSlabAttackGoal extends Goal {
         private final EctoSlab ectoSlab;
-        private int undergroundTime;
 
         public EctoSlabAttackGoal(EctoSlab ectoSlab) {
             this.ectoSlab = ectoSlab;
@@ -512,7 +516,7 @@ public class EctoSlab extends Slime {
         }
 
         public void start() {
-            this.undergroundTime = reducedTickDelay(180 + ectoSlab.random.nextInt(50));
+            ectoSlab.undergroundTime = reducedTickDelay(180 + ectoSlab.random.nextInt(50));
             super.start();
         }
 
@@ -529,7 +533,7 @@ public class EctoSlab extends Slime {
             } else if (!this.ectoSlab.canAttack(livingEntity)) {
                 return false;
             } else {
-                return ectoSlab.isTiny() ? this.undergroundTime > -240 : this.undergroundTime > -140;
+                return ectoSlab.isTiny() ? ectoSlab.undergroundTime > -240 : ectoSlab.undergroundTime > -140;
             }
         }
 
@@ -538,8 +542,8 @@ public class EctoSlab extends Slime {
         }
 
         public void tick() {
-            --undergroundTime;
-            if (undergroundTime > 0) {
+            --ectoSlab.undergroundTime;
+            if (ectoSlab.undergroundTime > 0) {
                 ectoSlab.setIsUnderground(true);
                 ectoSlab.refreshDimensions();
             }
@@ -560,7 +564,7 @@ public class EctoSlab extends Slime {
             MoveControl var3 = this.ectoSlab.getMoveControl();
             if (var3 instanceof EctoSlabMoveControl ectoSlabMoveControl) {
                 ectoSlabMoveControl.setDirection(this.ectoSlab.getYRot(), this.ectoSlab.isDealsDamage());
-                if (undergroundTime > 20 && livingEntity != null) {
+                if (ectoSlab.undergroundTime > 20 && livingEntity != null) {
                     ectoSlabMoveControl.setWantedPosition(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), ectoSlab.getAttributeValue(Attributes.MOVEMENT_SPEED));
                 }
             }

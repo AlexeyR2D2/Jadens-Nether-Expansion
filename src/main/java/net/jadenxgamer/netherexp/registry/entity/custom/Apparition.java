@@ -1,5 +1,6 @@
 package net.jadenxgamer.netherexp.registry.entity.custom;
 
+import net.jadenxgamer.netherexp.registry.particle.JNEParticleTypes;
 import net.jadenxgamer.netherexp.util.CompatUtil;
 import net.jadenxgamer.netherexp.registry.block.JNEBlocks;
 import net.jadenxgamer.netherexp.registry.block.custom.GargoyleStatueBlock;
@@ -57,6 +58,7 @@ import java.util.List;
 public class Apparition extends Monster implements FlyingAnimal {
 
     public int cooldown = 0;
+    public boolean spawnsWisp = true;
     private static final EntityDataAccessor<Integer> PREFERENCE = SynchedEntityData.defineId(Apparition.class, EntityDataSerializers.INT);
 
     public final AnimationState idle1AnimationState = new AnimationState();
@@ -257,6 +259,7 @@ public class Apparition extends Monster implements FlyingAnimal {
     @Override
     public void die(DamageSource damageSource) {
         super.die(damageSource);
+        if (!getSpawnsWisp()) return;
         for (int i = 0; i < this.level().getRandom().nextInt(2) + 1; i++) {
             Wisp wisp = JNEEntityType.WISP.get().create(this.level());
             if (wisp != null) {
@@ -267,11 +270,18 @@ public class Apparition extends Monster implements FlyingAnimal {
         }
     }
 
+    private void sendCloudParticles(LivingEntity entity) {
+        for (int i = 0; i < 12; i++) {
+            ((ServerLevel) this.level()).sendParticles(JNEParticleTypes.SOUL_CLOUD.get(), entity.getRandomX(0.5), entity.getRandomY() - 0.25, entity.getRandomZ(0.5), 1, 0.0, 0.0, 0.0, 0.0);
+        }
+    }
+
     @Override
     public boolean killedEntity(ServerLevel serverLevel, LivingEntity livingEntity) {
         if (livingEntity instanceof Skeleton skeleton) {
             Vessel vessel = skeleton.convertTo(JNEEntityType.VESSEL.get(), false);
             if (vessel != null) {
+                sendCloudParticles(vessel);
                 vessel.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(vessel.blockPosition()), MobSpawnType.CONVERSION, new Zombie.ZombieGroupData(false, false), null);
                 if (skeleton.hasCustomName()) {
                     vessel.setCustomName(skeleton.getCustomName());
@@ -283,6 +293,7 @@ public class Apparition extends Monster implements FlyingAnimal {
         else if (livingEntity instanceof MagmaCube magmaCube) {
             EctoSlab ectoSlab = JNEEntityType.ECTO_SLAB.get().create(this.level());
             if (ectoSlab != null) {
+                sendCloudParticles(ectoSlab);
                 ectoSlab.setSize(magmaCube.getSize(), true);
                 ectoSlab.setPos(this.position());
                 if (magmaCube.hasCustomName()) {
@@ -297,6 +308,7 @@ public class Apparition extends Monster implements FlyingAnimal {
         else if (livingEntity instanceof Strider strider) {
             Stampede stampede = strider.convertTo(JNEEntityType.STAMPEDE.get(), false);
             if (stampede != null) {
+                sendCloudParticles(stampede);
                 stampede.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(stampede.blockPosition()), MobSpawnType.CONVERSION, new Zombie.ZombieGroupData(false, false), null);
                 if (strider.hasCustomName()) {
                     stampede.setCustomName(strider.getCustomName());
@@ -308,11 +320,11 @@ public class Apparition extends Monster implements FlyingAnimal {
         else if (livingEntity instanceof Blaze blaze) {
             Banshee banshee = blaze.convertTo(JNEEntityType.BANSHEE.get(), false);
             if (banshee != null) {
+                sendCloudParticles(banshee);
                 banshee.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(banshee.blockPosition()), MobSpawnType.CONVERSION, new Zombie.ZombieGroupData(false, false), null);
                 if (blaze.hasCustomName()) {
                     banshee.setCustomName(blaze.getCustomName());
                 }
-                ((ServerLevel) this.level()).sendParticles(ParticleTypes.SOUL, banshee.getRandomX(0.5), banshee.getRandomY() - 0.25, banshee.getRandomZ(0.5), 1, 0.0, 0.0, 0.0, 0.0);
                 this.discard();
                 return false;
             }
@@ -351,6 +363,7 @@ public class Apparition extends Monster implements FlyingAnimal {
         super.addAdditionalSaveData(nbt);
         nbt.putInt("Preference", this.getPreference());
         nbt.putInt("Cooldown", this.cooldown);
+        nbt.putBoolean("SpawnsWisp", this.spawnsWisp);
     }
 
     @Override
@@ -358,6 +371,7 @@ public class Apparition extends Monster implements FlyingAnimal {
         super.readAdditionalSaveData(nbt);
         this.setPreference(nbt.getInt("Preference"));
         this.cooldown = nbt.getInt("Cooldown");
+        this.spawnsWisp = nbt.getBoolean("SpawnsWisp");
     }
 
     public int getPreference() {
@@ -374,6 +388,14 @@ public class Apparition extends Monster implements FlyingAnimal {
 
     public void setCooldown(int cooldown) {
         this.cooldown = cooldown;
+    }
+
+    public boolean getSpawnsWisp() {
+        return this.spawnsWisp;
+    }
+
+    public void setSpawnsWisp(boolean spawnsWisp) {
+        this.spawnsWisp = spawnsWisp;
     }
 
     ////////////
@@ -529,6 +551,7 @@ public class Apparition extends Monster implements FlyingAnimal {
                         level.addFreshEntity(vessel);
                     }
                 }
+                apparition.sendCloudParticles(apparition);
                 apparition.remove(RemovalReason.DISCARDED);
                 Direction[] var5 = Direction.values();
                 for (Direction direction : var5) {

@@ -38,7 +38,7 @@ public class BlackIcicle extends AbstractArrow {
     @Override
     protected void onHitBlock(BlockHitResult pResult) {
         if (!this.level().isClientSide) {
-            this.level().levelEvent(2001, new BlockPos(pResult.getDirection().getNormal()), BlackIcicleBlock.getId(JNEBlocks.BLACK_ICICLE.get().defaultBlockState()));
+            this.level().levelEvent(2001, this.blockPosition(), BlackIcicleBlock.getId(JNEBlocks.BLACK_ICICLE.get().defaultBlockState()));
             this.discard();
         }
     }

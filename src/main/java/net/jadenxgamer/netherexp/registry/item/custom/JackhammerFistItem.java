@@ -85,7 +85,7 @@ public class JackhammerFistItem extends ProjectileWeaponItem implements Vanishab
         ItemStack stack = player.getItemInHand(hand);
         if (!player.getProjectile(stack).isEmpty() || player.getAbilities().instabuild) {
             pullFlag = true;
-            pullTimeOut = 20;
+            pullTimeOut = 30;
             player.startUsingItem(hand);
             return InteractionResultHolder.consume(stack);
         }
@@ -95,7 +95,7 @@ public class JackhammerFistItem extends ProjectileWeaponItem implements Vanishab
     @Override
     public void onUseTick(Level pLevel, LivingEntity pLivingEntity, ItemStack pStack, int count) {
         int ticksUsed = pStack.getUseDuration() - count;
-        if (ticksUsed >= 20 && !getPulled(pStack)) {
+        if (ticksUsed >= 30 && !getPulled(pStack)) {
             setPulled(pStack, true);
         }
     }
@@ -104,7 +104,7 @@ public class JackhammerFistItem extends ProjectileWeaponItem implements Vanishab
     public void releaseUsing(ItemStack stack, Level level, LivingEntity user, int useCount) {
         int ticksUsed = stack.getUseDuration() - useCount;
 
-        if (ticksUsed < 20) {
+        if (ticksUsed < 30) {
 //            pullFlag = false;
 //            pullTimeOut = 20;
 //            pullAnimationState.stop(user);
@@ -144,7 +144,6 @@ public class JackhammerFistItem extends ProjectileWeaponItem implements Vanishab
             }
             user.push(pushBack.x * (0.5 + recoilPushBonus + speedPushBonus), pushBack.y * (0.5 + recoilPushBonus + speedPushBonus), pushBack.z * (0.5 + recoilPushBonus + speedPushBonus));
             level.playSound(null, user.getX(), user.getY(), user.getZ(), JNESoundEvents.SHOTGUN_USE.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
-
         }
     }
 
@@ -179,7 +178,7 @@ public class JackhammerFistItem extends ProjectileWeaponItem implements Vanishab
     }
 
     private void playPullAnimation(Player player, int tickCount) {
-        if (this.pullTimeOut == 20) {
+        if (this.pullTimeOut == 30) {
             this.pullAnimationState.startIfStopped(tickCount, player);
         }
         if (this.pullTimeOut > 0) {
@@ -187,13 +186,13 @@ public class JackhammerFistItem extends ProjectileWeaponItem implements Vanishab
         }
         if (this.pullTimeOut <= 0) {
             this.pullAnimationState.stop(player);
-            this.pullTimeOut = 20;
+            this.pullTimeOut = 30;
             this.pullFlag = false;
         }
     }
 
     private void playFireAnimation(Player player, int tickCount) {
-        if (this.punchTimeOut == 20) {
+        if (this.punchTimeOut == 5) {
             this.punchAnimationState.startIfStopped(tickCount, player);
         }
         if (this.punchTimeOut > 0) {
@@ -201,7 +200,7 @@ public class JackhammerFistItem extends ProjectileWeaponItem implements Vanishab
         }
         if (this.punchTimeOut <= 0) {
             this.punchAnimationState.stop(player);
-            this.punchTimeOut = 20;
+            this.punchTimeOut = 5;
             this.punchFlag = false;
         }
     }

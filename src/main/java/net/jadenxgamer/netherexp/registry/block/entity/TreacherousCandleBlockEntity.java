@@ -5,6 +5,7 @@ import net.jadenxgamer.netherexp.registry.block.JNEBlockEntityType;
 import net.jadenxgamer.netherexp.registry.block.custom.TreacherousCandleBlock;
 import net.jadenxgamer.netherexp.registry.effect.JNEMobEffects;
 import net.jadenxgamer.netherexp.registry.entity.ai.AttackTreacherousCandleGoal;
+import net.jadenxgamer.netherexp.registry.entity.custom.Apparition;
 import net.jadenxgamer.netherexp.registry.item.JNEItems;
 import net.jadenxgamer.netherexp.registry.misc_registry.JNESoundEvents;
 import net.jadenxgamer.netherexp.registry.misc_registry.JNETags;
@@ -247,6 +248,9 @@ public class TreacherousCandleBlockEntity extends BlockEntity {
                         mob.finalizeSpawn(serverLevel, level.getCurrentDifficultyAt(pos), MobSpawnType.MOB_SUMMONED, null, null);
                         if (mob instanceof Slime slime) {
                             slime.setSize(2, true);
+                        }
+                        if (mob instanceof Apparition apparition) {
+                            apparition.setSpawnsWisp(false);
                         }
                         if (mob instanceof PathfinderMob pathfinder && !pathfinder.getType().is(JNETags.EntityTypes.IGNORES_TREACHEROUS_CANDLE)) {
                             mob.targetSelector.addGoal(2, new AttackTreacherousCandleGoal(pathfinder, 32));

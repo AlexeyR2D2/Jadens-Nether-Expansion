@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "netherexp:block/discernment_glass"
+    },
+    "powered=true": {
+      "model": "netherexp:block/discernment_glass_powered"
+    }
+  }
+}

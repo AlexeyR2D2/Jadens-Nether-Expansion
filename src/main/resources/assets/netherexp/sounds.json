@@ -957,6 +957,18 @@
       "netherexp:block/gilding/gilding2"
     ]
   },
+  "block.discernment_glass.add": {
+    "subtitle": "subtitles.block.discernment_glass.add",
+    "sounds": [
+      "netherexp:block/discernment_glass/add_item"
+    ]
+  },
+  "block.discernment_glass.remove": {
+    "subtitle": "subtitles.block.discernment_glass.remove",
+    "sounds": [
+      "netherexp:block/discernment_glass/remove_item"
+    ]
+  },
   "block.ectoplasm.freeze": {
     "subtitle": "subtitles.block.ectoplasm.freeze",
     "sounds": [

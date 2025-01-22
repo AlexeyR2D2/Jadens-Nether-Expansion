@@ -66,11 +66,13 @@ public abstract class LivingEntityMixin extends Entity implements Attackable {
         // deals with unbounded speed mechanics by overriding the speed factor for certain blocks with conditions
         BlockState state = this.level().getBlockState(this.getBlockPosBelowThatAffectsMyMovement());
         LivingEntity entity = ((LivingEntity) (Object) this);
-        if (state.is(JNETags.Blocks.UNBOUNDED_SPEED_BLOCKS) && this.hasEffect(JNEMobEffects.UNBOUNDED_SPEED.get()) || entity.getType().is(JNETags.EntityTypes.IGNORES_SOUL_SAND_SLOWNESS) && !EnchantmentHelper.hasSoulSpeed(entity)) {
-            cir.setReturnValue(1.0f);
-        }
-        else if (state.is(Blocks.SOUL_SAND) || state.is(JNEBlocks.ECTO_SOUL_SAND.get()) && JNEConfigs.REDUCE_SOUL_SAND_SLOWNESS.get() && !EnchantmentHelper.hasSoulSpeed(entity)) {
-            cir.setReturnValue(0.7f);
+        if (state.is(JNETags.Blocks.UNBOUNDED_SPEED_BLOCKS)) {
+            if (this.hasEffect(JNEMobEffects.UNBOUNDED_SPEED.get()) || entity.getType().is(JNETags.EntityTypes.IGNORES_SOUL_SAND_SLOWNESS) && !EnchantmentHelper.hasSoulSpeed(entity)) {
+                cir.setReturnValue(1.0f);
+            }
+            else if (state.is(Blocks.SOUL_SAND) || state.is(JNEBlocks.ECTO_SOUL_SAND.get()) && JNEConfigs.REDUCE_SOUL_SAND_SLOWNESS.get() && !EnchantmentHelper.hasSoulSpeed(entity)) {
+                cir.setReturnValue(0.7f);
+            }
         }
     }
 

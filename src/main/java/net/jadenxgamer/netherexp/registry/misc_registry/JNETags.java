@@ -56,12 +56,11 @@ public class JNETags {
         public static final TagKey<EntityType<?>> SOUL_GLASS_PASSABLE = createEntityTypeTag("soul_glass_passable"); //Entities in this tag can go through Soul Glass (UNUSED)
         public static final TagKey<EntityType<?>> CANT_ACTIVATE_SWIRLS = createEntityTypeTag("cant_activate_swirls"); // Entities in this tag cannot activate Swirls
         public static final TagKey<EntityType<?>> PROJECTILES_PASS_THROUGH = createEntityTypeTag("projectiles_pass_through"); // Projectiles in the PHANTASM_HULL_PROTECTS_AGAINST tag will phase through entities in this tag
-        public static final TagKey<EntityType<?>> PHANTASM_HULL_PROTECTS_AGAINST = createEntityTypeTag("phantasm_hull_protects_against"); // Phantasm Hull will protect you against projectiles in this tag
+        public static final TagKey<EntityType<?>> PHANTASM_HULL_PROTECTS_BLACKLIST = createEntityTypeTag("phantasm_hull_protects_blacklist"); // Phantasm Hull will NOT protect you against projectiles in this tag
         public static final TagKey<EntityType<?>> IMMUNE_TO_GRAVE_CLOUDS = createEntityTypeTag("immune_to_grave_clouds"); // Grave Clouds don't damage or slow down entities in this tag
         public static final TagKey<EntityType<?>> IGNORES_SOUL_SAND_SLOWNESS = createEntityTypeTag("ignores_soul_sand_slowness"); // Soul Sand won't slow down entities in this tag
         public static final TagKey<EntityType<?>> ECTO_SLAB_POUNCE_DAMAGES = createEntityTypeTag("ecto_slab_pounce_damages"); // Ecto Slab Pounce Damages Entities in this tag
         public static final TagKey<EntityType<?>> STAMPEDE_CANNOT_RUN_OVER = createEntityTypeTag("stampede_cannot_run_over"); // Stampede cannot run over mobs in this tag
-        public static final TagKey<EntityType<?>> CAN_DAMAGE_UNDERGROUND_ECTO_SLABS = createEntityTypeTag("can_damage_underground_ecto_slabs"); // Ecto Slabs can be hurt by entities in this tag
         public static final TagKey<EntityType<?>> IGNORES_BLOCK_COLLISION = createEntityTypeTag("ignores_block_collision"); // Entities in this tag will ignore all block collision
         public static final TagKey<EntityType<?>> IGNORES_TREACHEROUS_CANDLE = createEntityTypeTag("ignores_treacherous_candle"); // Mobs in this do not care about the Treacherous Candle if the opportunity to break it is available
         public static final TagKey<EntityType<?>> TARGETS_REGARDLESS_OF_BETRAYED = createEntityTypeTag("targets_regardless_of_betrayed"); // Mobs in this tag find and attack targets even if they have the Betrayed Effect
@@ -119,6 +118,7 @@ public class JNETags {
     public static class DamageTypes {
         public static final TagKey<DamageType> IS_SUFFOCATION = createDamageTypeTag("is_suffocation"); // Produces Suffocation Sounds
         public static final TagKey<DamageType> CANT_DAMAGE_ARMOR = createDamageTypeTag("cant_damage_armor"); // Damage Types in this tag won't take durability away from armor
+        public static final TagKey<DamageType> CAN_DISRUPT_UNDERGROUND_ECTO_SLABS = createDamageTypeTag("can_disrupt_underground_ecto_slabs"); // these damage sources can disrupt an underground ecto slab forcing them out
 
         private static TagKey<DamageType> createDamageTypeTag(String name) {
             return TagKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(NetherExp.MOD_ID, name));

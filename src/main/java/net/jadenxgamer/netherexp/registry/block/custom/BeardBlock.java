@@ -1,6 +1,7 @@
 package net.jadenxgamer.netherexp.registry.block.custom;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HangingRootsBlock;
@@ -26,5 +27,10 @@ public class BeardBlock extends HangingRootsBlock {
     @Override
     public @NotNull VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
+    }
+
+    @Override
+    public boolean skipRendering(BlockState pState, BlockState pAdjacentBlockState, Direction pSide) {
+        return pAdjacentBlockState.is(this) ? true : super.skipRendering(pState, pAdjacentBlockState, pSide);
     }
 }

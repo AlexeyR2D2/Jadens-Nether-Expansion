@@ -28,10 +28,14 @@ import net.jadenxgamer.netherexp.registry.worldgen.feature.JNEFeature;
 import net.jadenxgamer.netherexp.registry.worldgen.structure.JNEStructureType;
 import net.jadenxgamer.netherexp.util.CompatUtil;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.animal.frog.Frog;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
@@ -39,6 +43,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -128,6 +133,15 @@ public class NetherExp {
 
     public static void loadComplete(FMLLoadCompleteEvent event) {
         event.enqueueWork(JNEFluids::initFluidInteractions);
+    }
+
+    @SubscribeEvent
+    public void livingDie(LivingDeathEvent event) {
+        if (CompatUtil.checkAlexsCaves() && event.getEntity().getType() == JNEEntityType.ECTO_SLAB.get() && event.getSource() != null && event.getSource().getEntity() instanceof Frog frog) {
+            if (frog.getVariant() == BuiltInRegistries.FROG_VARIANT.get(new ResourceLocation("alexscaves", "primordial"))) {
+                event.getEntity().spawnAtLocation(new ItemStack(JNEBlocks.CARMINE_FROGMIST.get()));
+            }
+        }
     }
 
     private static void addBuiltinPacks(AddPackFindersEvent event) {

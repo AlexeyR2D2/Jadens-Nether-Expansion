@@ -81,6 +81,7 @@ public class JNECreativeModeTabs {
                         output.accept(JNEItems.PHASMO_SHARD.get());
                         output.accept(JNEItems.PHASMO_ARROW.get());
                         output.accept(JNEBlocks.SOUL_GLASS.get());
+                        output.accept(JNEBlocks.DISCERNMENT_GLASS.get());
                         output.accept(JNEBlocks.OCHRE_FROGMIST.get());
                         output.accept(JNEBlocks.VERDANT_FROGMIST.get());
                         output.accept(JNEBlocks.PEARLESCENT_FROGMIST.get());
@@ -394,7 +395,11 @@ public class JNECreativeModeTabs {
                             output.accept(JNEBlocks.CUT_NECROMIUM_PILLAR.get());
                         }
                         if (CompatUtil.checkOreganized()) {
+                            output.accept(JNEBlocks.GROOVED_BLACK_ICE.get());
                             output.accept(JNEItems.JACKHAMMER_FIST.get());
+                        }
+                        if (CompatUtil.checkAlexsCaves()) {
+                            output.accept(JNEBlocks.CARMINE_FROGMIST.get());
                         }
                     }).build());
 
